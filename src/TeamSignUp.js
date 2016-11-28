@@ -15,6 +15,7 @@ class SignUpForm extends React.Component {
     };
 
     this.updateState = this.updateState.bind(this); //bind for scope
+    //this.handleReset = this.handleReset.bind(this); //bind for scope
   }
 
   //callback for updating the state with child information
@@ -25,7 +26,13 @@ class SignUpForm extends React.Component {
   //callback for the reset button
   handleReset(event) {
     console.log('Reset!');
-    var emptyState = {};
+    var emptyState = { //resets the state back to it's original state with all blank, invalid fields
+      email:{value:'',valid:false}, 
+      name:{value:'',valid:false},
+      dob:{value:'',valid:false},
+      password:{value:'',valid:false},
+      passwordConf:{value:'',valid:false}
+    };
     this.setState(emptyState);
   }
 
