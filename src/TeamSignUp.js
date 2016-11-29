@@ -152,11 +152,13 @@ class EmailInput extends React.Component {
  * A component representing a controlled input for a generic required field
  */
 class RequiredInput extends React.Component {
-  validate(currentValue) {
-    if (currentValue === '') { //check presence
-      return { required: true, isValid: false };
+  validate(currentValue){
+    if(currentValue === ''){ //check presence
+      return {required: true, isValid: false};
     }
-  }
+
+    return {isValid: true}; //no errors
+  } 
 
   handleChange(event){
     //check validity (to inform parent)
@@ -260,51 +262,53 @@ class BirthdayInput extends React.Component {
 
 
 /**
- * A component representing a controlled input for a password confirmation
- */
+* A component representing a controlled input for a password confirmation
+*/
 class PasswordConfirmationInput extends React.Component {
   validate(currentValue){
-    if(currentValue === '' || this.props.password === ''){ //check both entries
-      return {mismatched:true, isValid:false};
-    }
+    /* determine if current value in pass confirm field matches value 
+    in reg. password field */
+    if((currentValue !== this.props.password)){ //check both entries
+        return {mismatched:true, isValid:false};
+      }    
 
-    return {isValid: true}; //no errors
-  }
-
-  handleChange(event){
-    //check validity (to inform parent)
-    var isValid = this.validate(event.target.value).isValid;
-
-    //what to assign to parent's state
-    var stateUpdate = {
-      'passConf': {
-        value: event.target.value,
-        valid: isValid
-      }
-    };
-
-    this.props.updateParent(stateUpdate) //update parent state
-  }
-
-  render() {
-    var errors = this.validate(this.props.value); //need to validate again, but at least isolated
-    var inputStyle = 'form-group';
-    if (!errors.isValid) inputStyle += ' invalid';
-
-    return (
-      <div className={inputStyle}>
-        <label htmlFor="passwordConf">Confirm Password</label>
-        <input type="password" id="passwordConf" name="passwordConf" className="form-control"
-          value={this.props.value}
-          onChange={(e) => this.handleChange(e)}
-          />
-        {errors.mismatched &&
-          <p className="help-block error-mismatched">passwords don't match</p>
+      return {isValid: true}; //no errors
+    }  
+    
+   handleChange(event){  
+     //check validity (to inform parent)
+     var isValid = this.validate(event.target.value).isValid;
+  
+      //what to assign to parent's state
+      var stateUpdate = {
+       'passwordConf': {
+          value:event.target.value,
+          valid:isValid
         }
-      </div>
-    );
-  }
-}
+      };
+ 
+      this.props.updateParent(stateUpdate) //update parent state
+    }
+  
+    render() {
+      var errors = this.validate(this.props.value); //need to validate again, but at least isolated
+      var inputStyle = 'form-group'; 
+      if(!errors.isValid) inputStyle += ' invalid'; // add invalid class if error found
+  
+      return (
+        <div className={inputStyle}>
+         <label htmlFor="passwordConf">Confirm Password</label>
+         <input type="password" id="passwordConf" name="passwordConf" className="form-control"
+                 value={this.props.value}
+                 onChange={(e) => this.handleChange(e)}
+         />
+         {errors.mismatched &&
+           <p className="help-block error-mismatched">passwords don't match</p>
+         }
+       </div>
+     );
+   }
+ }
 
 //exports: DO NOT REMOVE OR CHANGE THESE
 export default SignUpForm;
