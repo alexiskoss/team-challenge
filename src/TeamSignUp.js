@@ -194,29 +194,30 @@ class RequiredInput extends React.Component {
   }
 }
 
-
 /**
  * A component representing a controlled input for a birthdate (min age: 13)
  */
 class BirthdayInput extends React.Component {
-  validate(currentValue) {
-    if (currentValue === '') { //check presence
-      return { missing: true, isValid: false }
+  validate(currentValue){
+    if(currentValue === ''){ //check presence
+      return {missing:true, isValid:false}
     }
 
     //check date validity
     var timestamp = Date.parse(currentValue); //use built-in Date type
-    if (isNaN(timestamp)) { //it not a valid stamp
-      return { notDate: true, isValid: false };
+    if(isNaN(timestamp)) { //it not a valid stamp
+      return {notDate:true, isValid:false};
     }
 
     //check age range
     var d = new Date(); //today
     d.setYear(d.getFullYear() - 13); //subtract 13 from the year
     var minTimestamp = d.getTime();
-    if (timestamp < minTimestamp) {
-      return { notOldEnough: true, isValid: false }
+    if(timestamp > minTimestamp){
+      return {notOldEnough:true, isValid:false}
     }
+
+    return {isValid: true}; //no errors
   }
 
   handleChange(event){
@@ -226,8 +227,8 @@ class BirthdayInput extends React.Component {
     //what to assign to parent's state
     var stateUpdate = {
       'dob': {
-        value: event.target.value,
-        valid: isValid
+        value:event.target.value,
+        valid:isValid
       }
     };
 
@@ -237,15 +238,15 @@ class BirthdayInput extends React.Component {
   render() {
     var errors = this.validate(this.props.value); //need to validate again, but at least isolated
     var inputStyle = 'form-group';
-    if (!errors.isValid) inputStyle += ' invalid';
+    if(!errors.isValid) inputStyle += ' invalid';
 
     return (
       <div className={inputStyle}>
         <label htmlFor="dob">Birthdate</label>
         <input type="text" id="dob" name="dob" className="form-control" placeholder="your birthdate"
-          value={this.props.value}
-          onChange={(e) => this.handleChange(e)}
-          />
+                value={this.props.value}
+                onChange={(e) => this.handleChange(e)}
+        />
         {errors.missing &&
           <p className="help-block error-missing">we need to know your birthdate</p>
         }
@@ -259,7 +260,6 @@ class BirthdayInput extends React.Component {
     );
   }
 }
-
 
 /**
 * A component representing a controlled input for a password confirmation
