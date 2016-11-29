@@ -109,7 +109,7 @@ class EmailInput extends React.Component {
     return { isValid: true }; //no errors
   }
 
-  handleChange(event) {
+  handleChange(event){
     //check validity (to inform parent)
     var isValid = this.validate(event.target.value).isValid;
 
@@ -139,7 +139,7 @@ class EmailInput extends React.Component {
         {errors.missing &&
           <p className="help-block error-missing">we need to know your email address</p>
         }
-        {errors.invalid &&
+        {errors.invalidEmail &&
           <p className="help-block error-invalid">this is not a valid email address</p>
         }
       </div>
@@ -156,11 +156,9 @@ class RequiredInput extends React.Component {
     if (currentValue === '') { //check presence
       return { required: true, isValid: false };
     }
-
-    return { isValid: true }; //no errors
   }
 
-  handleChange(event) {
+  handleChange(event){
     //check validity (to inform parent)
     var isValid = this.validate(event.target.value).isValid;
 
@@ -217,11 +215,9 @@ class BirthdayInput extends React.Component {
     if (timestamp < minTimestamp) {
       return { notOldEnough: true, isValid: false }
     }
-
-    return { isValid: true }; //no errors
   }
 
-  handleChange(event) {
+  handleChange(event){
     //check validity (to inform parent)
     var isValid = this.validate(event.target.value).isValid;
 
@@ -267,15 +263,15 @@ class BirthdayInput extends React.Component {
  * A component representing a controlled input for a password confirmation
  */
 class PasswordConfirmationInput extends React.Component {
-  validate(currentValue) {
-    if (currentValue === '' || this.props.password === '') { //check both entries
-      return { mismatched: true, isValid: false };
+  validate(currentValue){
+    if(currentValue === '' || this.props.password === ''){ //check both entries
+      return {mismatched:true, isValid:false};
     }
 
-    return { isValid: true }; //no errors
+    return {isValid: true}; //no errors
   }
 
-  handleChange(event) {
+  handleChange(event){
     //check validity (to inform parent)
     var isValid = this.validate(event.target.value).isValid;
 
@@ -312,4 +308,4 @@ class PasswordConfirmationInput extends React.Component {
 
 //exports: DO NOT REMOVE OR CHANGE THESE
 export default SignUpForm;
-export { EmailInput, RequiredInput, BirthdayInput, PasswordConfirmationInput };
+export {EmailInput, RequiredInput, BirthdayInput, PasswordConfirmationInput};
