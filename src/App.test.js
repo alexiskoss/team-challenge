@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './App';
-import {shallow, mount} from 'enzyme';
+import {shallow, mount, simulate} from 'enzyme';
 import sinon from 'sinon';
 import {RequiredInput, PasswordConfirmationInput} from './TeamSignUp';
 import SignUpForm from './TeamSignUp'
@@ -101,8 +101,8 @@ describe('Submit button', () => {
 
   beforeEach(() => {
     wrapper = mount(<App />);
-    var emailField = wrapper.find('EmailInput').get(0);
-    emailField.simulate('change', {target: {value: 'test@test.com'}});
+    var signUp = wrapper.find('SignUpForm').get(0)
+    signUp.simulate('change', {target: {value: 'test@test.com'}});
     var nameField = wrapper.find('RequiredInput').get(0);
     nameField.simulate('change', {target: {value: 'bob'}});
     var dobField = wrapper.find('BirthdayInput').get(0);
@@ -114,10 +114,12 @@ describe('Submit button', () => {
   });
 
   it('should only enable when all fields are valid', () => {
-    expect(wrapper.find('submitButton').get())
+    expect(wrapper.find('#submitButton').prop('hidden').toEqual('false'));
   });
 
   it('should show an alert when submit button is clicked', () => {
-
+    var submitButton = wrapper.find('#submitButton');
+    submitButton.simulate('click');
+    //expect()
   });
 });
