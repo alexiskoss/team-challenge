@@ -144,11 +144,11 @@ class EmailInput extends React.Component {
  * A component representing a controlled input for a generic required field
  */
 class RequiredInput extends React.Component {
+  // determine if field has text input
   validate(currentValue){
     if(currentValue === ''){ //check presence
       return {required: true, isValid: false};
     }
-
     return {isValid: true}; //no errors
   }  
   
@@ -162,15 +162,13 @@ class RequiredInput extends React.Component {
       value:event.target.value,
       valid:isValid
     }
-
     this.props.updateParent(stateUpdate) //update parent state
   }
 
   render() {
     var errors = this.validate(this.props.value); //need to validate again, but at least isolated
-    console.log(errors);
     var inputStyle = 'form-group';
-    if(!errors.isValid) inputStyle += ' invalid';
+    if(!errors.isValid) inputStyle += ' invalid'; // add invalid class if error is found
 
     return (
       <div className={inputStyle}>
@@ -261,10 +259,11 @@ class BirthdayInput extends React.Component {
  */
 class PasswordConfirmationInput extends React.Component {
   validate(currentValue){
-    if(currentValue === '' || this.props.password === ''){ //check both entries
+    /* determine if current value in pass confirm field matches value 
+    in reg. password field */
+    if((currentValue !== this.props.password)){ //check both entries
       return {mismatched:true, isValid:false};
     }    
-
     return {isValid: true}; //no errors
   }  
   
@@ -274,19 +273,18 @@ class PasswordConfirmationInput extends React.Component {
 
     //what to assign to parent's state
     var stateUpdate = {
-      'passConf': {
+      'passwordConf': {
         value:event.target.value,
         valid:isValid
       }
     };
-
     this.props.updateParent(stateUpdate) //update parent state
   }
 
   render() {
     var errors = this.validate(this.props.value); //need to validate again, but at least isolated
-    var inputStyle = 'form-group';
-    if(!errors.isValid) inputStyle += ' invalid';
+    var inputStyle = 'form-group'; 
+    if(!errors.isValid) inputStyle += ' invalid'; // add invalid class if error found
 
     return (
       <div className={inputStyle}>
