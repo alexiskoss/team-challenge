@@ -102,11 +102,18 @@ describe('Submit button', () => {
     wrapper = mount(<App />);
     var emailField = wrapper.find('EmailInput').get(0);
     emailField.simulate('change', {target: {value: 'test@test.com'}});
-    
+    var nameField = wrapper.find('RequiredInput').get(0);
+    nameField.simulate('change', {target: {value: 'bob'}});
+    var dobField = wrapper.find('BirthdayInput').get(0);
+    dobField.simulate('change', {target: {value: '10/27/1995'}});
+    var passField = wrapper.find('RequiredInput').get(1);
+    passField.simulate('change', {target: {value: 'Leaf'}});
+    var passConfField = wrapper.find('PasswordConfirmationInput').get(0);
+    passConfField.simulate('change', {target: {value: 'Leaf'}});
   });
 
   it('should only enable when all fields are valid', () => {
-
+    expect(wrapper.find('submitButton').get())
   });
 
   it('should show an alert when submit button is clicked', () => {
