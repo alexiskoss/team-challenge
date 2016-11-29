@@ -1,7 +1,7 @@
 {
   "name": "team-challenge",
   "author": "Lisa Koss, Alexis Koss, Jason Peacher-Ton, and Kathryn Brusewitz",
-  "homepage": "https://info343-au16.github.io/challenges-alexiskoss/team-challenge/build",
+  "homepage": "https://alexiskoss.github.io/team-challenge/build",
   "version": "0.1.0",
   "private": true,
   "devDependencies": {
