@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import App from './App';
 import {shallow, mount, simulate} from 'enzyme';
 import sinon from 'sinon';
-import {RequiredInput, PasswordConfirmationInput} from './TeamSignUp';
+import {RequiredInput, PasswordConfirmationInput, BirthdayInput, EmailInput} from './TeamSignUp';
 import SignUpForm from './TeamSignUp'
 
 it('renders without crashing', () => {
@@ -59,6 +59,68 @@ describe('<PasswordConfirmationInput /> component', () => {
     expect(validateSpy.returnValues[0].isValid).toEqual(false); // passwords don't match
     validateSpy.restore();
   });
+});
+
+/* Tests BirthdayInput component for valid and invalid cases. */
+describe('<BirthdayInput /> component', () => {
+  /* Verifies that birthday field has required input (13 yrs+). */
+  it('should check if birthday field has required input', () => {
+    var validateSpy = sinon.spy(BirthdayInput.prototype, 'validate');
+    const wrapper = shallow(<BirthdayInput value="01/12/1996" />); // input given to text field
+
+    expect(validateSpy.called).toEqual(true); // check that the callback was executed
+    expect(validateSpy.getCall(0).args[0]).toEqual("01/12/1996"); // checks that parameter given to the callback matches input
+    expect(validateSpy.returnValues[0].isValid).toEqual(true); // birthday given is older than 13
+    validateSpy.restore();
+  });
+
+  /* Verifies that birthday field does not have required input (less than 13 yrs). */
+  it('should check if birthday field shows appropriate error message', () => {
+    var validateSpy = sinon.spy(BirthdayInput.prototype, 'validate');
+    const wrapper = shallow(<BirthdayInput value="01/12/2004" />); // empty text field
+
+    expect(validateSpy.called).toEqual(true); // check that the callback was executed
+    expect(validateSpy.getCall(0).args[0]).toEqual("01/12/2004"); // checks that parameter given to the callback matches input
+    expect(validateSpy.returnValues[0].isValid).toEqual(false); // birthday given is less than 13
+    validateSpy.restore();
+  });
+});
+
+/* Tests EmailInput component for valid and invalid cases. */
+describe('<EmailInput /> component', () => {
+  /* Verifies that email field has required input. */
+  it('should check if email field has required input', () => {
+    var validateSpy = sinon.spy(EmailInput.prototype, 'validate');
+    const wrapper = shallow(<EmailInput value="test@test.edu" />); // input given to text field
+
+    expect(validateSpy.called).toEqual(true); // check that the callback was executed
+    expect(validateSpy.getCall(0).args[0]).toEqual("test@test.edu"); // checks that parameter given to the callback matches input
+    expect(validateSpy.returnValues[0].isValid).toEqual(true); // email is valid
+    validateSpy.restore();
+  });
+
+  /* Verifies that email field has invalid input. */
+  it('should check if email field shows appropriate error message when invalid', () => {
+    var validateSpy = sinon.spy(EmailInput.prototype, 'validate');
+    const wrapper = shallow(<EmailInput value="test@" />); // empty text field
+
+    expect(validateSpy.called).toEqual(true); // check that the callback was executed
+    expect(validateSpy.getCall(0).args[0]).toEqual("test@"); // checks that parameter given to the callback matches input
+    expect(validateSpy.returnValues[0].isValid).toEqual(false); // email is invaid
+    validateSpy.restore();
+  });
+
+  /* Verifies that email field does not have required input. */
+  it('should check if email field shows appropriate error message when left blank', () => {
+    var validateSpy = sinon.spy(EmailInput.prototype, 'validate');
+    const wrapper = shallow(<EmailInput value="" />); // empty text field
+
+    expect(validateSpy.called).toEqual(true); // check that the callback was executed
+    expect(validateSpy.getCall(0).args[0]).toEqual(""); // checks that parameter given to the callback matches input
+    expect(validateSpy.returnValues[0].isValid).toEqual(false); // email is blank
+    validateSpy.restore();
+  });
+
 });
 
 /* Tests the validity of the reset button */
