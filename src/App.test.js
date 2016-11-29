@@ -61,6 +61,7 @@ describe('<PasswordConfirmationInput /> component', () => {
   });
 });
 
+/* Tests the validity of the reset button */
 describe('<SignUpForm /> component', () => {
   let wrapper;
 
