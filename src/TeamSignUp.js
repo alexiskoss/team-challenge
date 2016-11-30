@@ -43,14 +43,13 @@ class SignUpForm extends React.Component {
     this.props.submitCallback(this.state);
   }
 
-  submitCallback(state) {
-    return state.hidden.value;
-  }
-
   render() {
     //if all fields are valid, button should be enabled
     var buttonEnabled = true;
-    if (this.state.email.valid === true && this.state.name.valid === true && this.state.dob.valid === true && this.state.password.valid === true) {
+    if (this.state.email.valid === true && this.state.name.valid === true && 
+        this.state.dob.valid === true && this.state.password.valid === true && 
+        this.state.passwordConf.valid === true)
+    {
       buttonEnabled = false;
     }
 
