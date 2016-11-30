@@ -1,9 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './App';
-import {shallow, mount, simulate} from 'enzyme';
+import { shallow, mount, simulate } from 'enzyme';
 import sinon from 'sinon';
-import {RequiredInput, PasswordConfirmationInput, BirthdayInput, EmailInput} from './TeamSignUp';
+import { RequiredInput, PasswordConfirmationInput, BirthdayInput, EmailInput } from './TeamSignUp';
 import SignUpForm from './TeamSignUp'
 
 it('renders without crashing', () => {
@@ -162,26 +162,23 @@ describe('Submit button', () => {
   let wrapper;
 
   beforeEach(() => {
-    wrapper = mount(<App />);
-    var signUp = wrapper.find('SignUpForm').get(0)
-    signUp.simulate('change', {target: {value: 'test@test.com'}});
-    var nameField = wrapper.find('RequiredInput').get(0);
-    nameField.simulate('change', {target: {value: 'bob'}});
-    var dobField = wrapper.find('BirthdayInput').get(0);
-    dobField.simulate('change', {target: {value: '10/27/1995'}});
-    var passField = wrapper.find('RequiredInput').get(1);
-    passField.simulate('change', {target: {value: 'Leaf'}});
-    var passConfField = wrapper.find('PasswordConfirmationInput').get(0);
-    passConfField.simulate('change', {target: {value: 'Leaf'}});
+    wrapper = mount(<SignUpForm />);
+    wrapper.setState({
+      email: { valid: true },
+      name: { valid: true },
+      dob: { valid: true },
+      password: { valid: true },
+      passwordConf: { valid: true }
+    }); //making all the fields in the form valid to test submit button
   });
 
   it('should only enable when all fields are valid', () => {
-    expect(wrapper.find('#submitButton').prop('hidden').toEqual('false'));
+    expect(wrapper.find('#submitButton').simulate('click')); //The button isn't able to be clicked unless fields are valid
   });
 
   it('should show an alert when submit button is clicked', () => {
-    var submitButton = wrapper.find('#submitButton');
-    submitButton.simulate('click');
-    //expect()
-  });
+      var submitButton = wrapper.find('#submitButton');
+      submitButton.simulate('click');
+      //expect()
+    });
 });
